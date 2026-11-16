@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<PropertyList>
+  <path>RangeKnob.ac</path>
+    <name>Range Knob</name>
+
+    <animation>
+      <object-name>Knob</object-name>
+    </animation>
+
+  <animation>
+      <type>knob</type>
+      <object-name>Knob</object-name>
+      <property>instrumentation/FGUKRadar/range-nm</property>
+  <factor>20</factor>
+      <axis>
+          <x>1</x>
+          <y>0</y>
+          <z>0</z>
+      </axis>
+
+      <action>
+    <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/FGUKRadar/range-nm</property>
+        <wrap>true</wrap>
+        <min>5</min>
+        <max>150</max> <!-- 0=off, 1=right, 2=both, 3=left -->
+    </binding>
+</action>
+  </animation>
+
+</PropertyList>

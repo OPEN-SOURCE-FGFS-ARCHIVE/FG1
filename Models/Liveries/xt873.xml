@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+  <sim>
+    <model>
+      <livery>
+       <name type="string">RAF XT873</name>
+         <MidFuselageSides>Liveries/XT873/F2L_T.jpg</MidFuselageSides>
+         <FrontFuselageSides>Liveries/XT873/F1L_T.jpg</FrontFuselageSides>
+         <MidFuselageTop>Liveries/XT873/F2B_T.jpg</MidFuselageTop>
+         <FrontFuselageTop>Liveries/XT873/F1B_T.jpg</FrontFuselageTop>
+         <RearFuselage>Liveries/XT873/F3L_T.jpg</RearFuselage>
+         <VertStabRoot>Liveries/XT873/f3b_T.jpg</VertStabRoot>
+         <PortVertStab>Liveries/XT873/TEX1_T.jpg</PortVertStab>
+         <StarVertStab>Liveries/XT873/TEX3_T.jpg</StarVertStab>
+         <PortWingTop>Liveries/XT873/LEFT WING_T.jpg</PortWingTop>
+         <StarWingTop>Liveries/XT873/RIGHT WING_T.jpg</StarWingTop>
+         <PortWingBottom>Liveries/XT873/LEFT WING BOTTOM_T.jpg</PortWingBottom>
+         <StarWingBottom>Liveries/XT873/RIGHT WING BOTTOM_T.jpg</StarWingBottom>
+         <Gears>Liveries/XT873/GEAR_T.jpg</Gears>
+         </livery>
+		  <fgr2>
+	   <hdr>false</hdr>
+		<als>true</als>
+		</fgr2>
+    </model>
+	<rendering>
+    <refl_correction type="string">-0.43</refl_correction>
+	<fresnel-factor>0.4</fresnel-factor>
+    </rendering>
+  </sim>
+
+</PropertyList>

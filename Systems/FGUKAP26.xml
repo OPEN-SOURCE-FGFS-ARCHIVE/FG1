@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyList>
+
+  <!-- ====================================================== -->
+  <!-- FG1 / FGR2 SIMPLE AUTOPILOT                           -->
+  <!-- Compatible with FlightGear default AP menu            -->
+  <!-- Uses /autopilot/internal/target-fpm-vs consistently   -->
+  <!-- ====================================================== -->
+
+  <!-- ====================================================== -->
+  <!-- HEADING COMPUTERS                                     -->
+  <!-- ====================================================== -->
+
+  <filter>
+    <name>Heading Offset Computer</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <gain>1.0</gain>
+
+    <input>
+      <condition>
+        <equals>
+          <property>/autopilot/locks/heading</property>
+          <value>true-heading-hold</value>
+        </equals>
+      </condition>
+      <property>/autopilot/settings/true-heading-deg</property>
+    </input>
+
+    <input>
+      <property>/autopilot/settings/heading-bug-deg</property>
+    </input>
+
+    <reference>/orientation/heading-magnetic-deg</reference>
+    <output>/autopilot/internal/heading-offset-deg</output>
+
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+  </filter>
+
+  <filter>
+    <name>Target Roll Computer</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/heading</prop>
+      <value>dg-heading-hold</value>
+      <value>true-heading-hold</value>
+    </enable>
+    <type>gain</type>
+    <input>/autopilot/internal/heading-offset-deg</input>
+    <output>/autopilot/internal/target-roll-deg</output>
+    <gain>2.8</gain>
+    <min>-45.0</min>
+    <max>45.0</max>
+  </filter>
+
+  <!-- ====================================================== -->
+  <!-- LATERAL CHANNEL                                       -->
+  <!-- ====================================================== -->
+
+  <pid-controller>
+    <name>Wing Leveler</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/heading</prop>
+      <value>wing-leveler</value>
+    </enable>
+    <input>
+      <prop>/orientation/roll-deg</prop>
+    </input>
+    <reference>0</reference>
+    <output>
+      <prop>/controls/flight/aileron</prop>
+    </output>
+    <config>
+      <Kp>0.05</Kp>
+      <Ti>8.0</Ti>
+      <Td>0.01</Td>
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
+    </config>
+  </pid-controller>
+
+  <pid-controller>
+    <name>Heading Hold Aileron Servo</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/heading</prop>
+      <value>dg-heading-hold</value>
+      <value>true-heading-hold</value>
+    </enable>
+    <input>
+      <prop>/orientation/roll-deg</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/internal/target-roll-deg</prop>
+    </reference>
+    <output>
+      <prop>/controls/flight/aileron</prop>
+    </output>
+    <config>
+      <Kp>0.06</Kp>
+      <Ti>8.0</Ti>
+      <Td>0.01</Td>
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
+    </config>
+  </pid-controller>
+
+  <pid-controller>
+    <name>Heading Hold Rudder Assist</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/heading</prop>
+      <value>dg-heading-hold</value>
+      <value>true-heading-hold</value>
+    </enable>
+    <input>
+      <prop>/orientation/roll-deg</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/internal/target-roll-deg</prop>
+    </reference>
+    <output>
+      <prop>/controls/flight/rudder</prop>
+    </output>
+    <config>
+      <Kp>0.008</Kp>
+      <Ti>10.0</Ti>
+      <Td>0.0</Td>
+      <u_min>-0.25</u_min>
+      <u_max>0.25</u_max>
+    </config>
+  </pid-controller>
+
+  <!-- ====================================================== -->
+  <!-- SPEED HOLD WITH THROTTLE                              -->
+  <!-- ====================================================== -->
+
+  <pid-controller>
+    <name>Auto Throttle</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/speed</prop>
+      <value>speed-with-throttle</value>
+    </enable>
+    <input>
+      <prop>/velocities/airspeed-kt</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/settings/target-speed-kt</prop>
+    </reference>
+    <output>
+      <prop>/controls/engines/engine[0]/throttle</prop>
+      <prop>/controls/engines/engine[1]/throttle</prop>
+    </output>
+    <config>
+      <Kp>0.025</Kp>
+      <Ti>8.0</Ti>
+      <Td>0.0</Td>
+      <u_min>0.0</u_min>
+      <u_max>1.0</u_max>
+    </config>
+  </pid-controller>
+
+  <!-- ====================================================== -->
+  <!-- SAMPLE / HOLD HELPERS                                 -->
+  <!-- ====================================================== -->
+
+  <filter>
+    <name>Pitch Sample And Hold</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <not>
+          <or>
+            <equals>
+              <property>/autopilot/locks/altitude</property>
+              <value>pitch-hold</value>
+            </equals>
+            <equals>
+              <property>/autopilot/locks/altitude</property>
+              <value>vertical-speed-hold</value>
+            </equals>
+            <equals>
+              <property>/autopilot/locks/altitude</property>
+              <value>altitude-hold</value>
+            </equals>
+          </or>
+        </not>
+      </condition>
+    </enable>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>/orientation/pitch-deg</input>
+    <output>/autopilot/settings/target-pitch-deg</output>
+  </filter>
+
+  <filter>
+    <name>Altitude Sample And Hold</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <not>
+          <equals>
+            <property>/autopilot/locks/altitude</property>
+            <value>altitude-hold</value>
+          </equals>
+        </not>
+      </condition>
+    </enable>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>/instrumentation/altimeter/indicated-altitude-ft</input>
+    <output>/autopilot/settings/target-altitude-ft</output>
+  </filter>
+
+  <!-- ====================================================== -->
+  <!-- PITCH HOLD                                            -->
+  <!-- ====================================================== -->
+
+  <pid-controller>
+    <name>Pitch Hold Servo</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>pitch-hold</value>
+    </enable>
+    <input>
+      <prop>/orientation/pitch-deg</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/settings/target-pitch-deg</prop>
+    </reference>
+    <output>
+      <prop>/controls/flight/elevator</prop>
+    </output>
+    <config>
+      <Kp>-0.14</Kp>
+      <Ti>2.0</Ti>
+      <Td>0.02</Td>
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
+    </config>
+  </pid-controller>
+
+  <!-- ====================================================== -->
+  <!-- VERTICAL SPEED HOLD                                   -->
+  <!-- ====================================================== -->
+
+  <filter>
+    <name>VS Hold Copy To Internal Target</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>vertical-speed-hold</value>
+    </enable>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>/autopilot/settings/vertical-speed-fpm</input>
+    <output>/autopilot/internal/target-fpm-vs</output>
+    <min>-4000</min>
+    <max>4000</max>
+  </filter>
+
+  <pid-controller>
+    <name>Vertical Speed To Pitch</name>
+    <debug>true</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>vertical-speed-hold</value>
+      <value>altitude-hold</value>
+    </enable>
+    <input>
+      <prop>/velocities/vertical-speed-fps</prop>
+      <scale>60.0</scale>
+    </input>
+    <reference>
+      <prop>/autopilot/internal/target-fpm-vs</prop>
+    </reference>
+    <output>
+      <prop>/autopilot/internal/target-pitch-deg</prop>
+    </output>
+    <config>
+      <Kp>-0.022</Kp>
+      <Ti>2.5</Ti>
+      <Td>0.0</Td>
+      <u_min>-18.0</u_min>
+      <u_max>18.0</u_max>
+    </config>
+  </pid-controller>
+
+  <pid-controller>
+    <name>Vertical Pitch Servo</name>
+    <debug>true</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>vertical-speed-hold</value>
+      <value>altitude-hold</value>
+    </enable>
+    <input>
+      <prop>/orientation/pitch-deg</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/internal/target-pitch-deg</prop>
+    </reference>
+    <output>
+      <prop>/controls/flight/elevator</prop>
+    </output>
+    <config>
+      <Kp>-0.22</Kp>
+      <Ti>1.5</Ti>
+      <Td>0.02</Td>
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
+    </config>
+  </pid-controller>
+
+  <!-- ====================================================== -->
+  <!-- ALTITUDE HOLD                                         -->
+  <!-- ====================================================== -->
+
+  <filter>
+    <name>Target Rate Of Climb Computer Alt Hold</name>
+    <debug>true</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>altitude-hold</value>
+    </enable>
+    <type>gain</type>
+    <input>/instrumentation/altimeter/indicated-altitude-ft</input>
+    <reference>/autopilot/settings/target-altitude-ft</reference>
+    <gain>-1.5</gain>
+    <output>/autopilot/internal/target-fpm-vs</output>
+    <min>-3000</min>
+    <max>3000</max>
+  </filter>
+
+  <!-- ====================================================== -->
+  <!-- TRIM MANAGEMENT                                       -->
+  <!-- ====================================================== -->
+
+  <property-rule>
+    <name>Neutralise Trim In AP Vertical Modes</name>
+    <debug>false</debug>
+    <condition>
+      <or>
+        <equals>
+          <property>/autopilot/locks/altitude</property>
+          <value>pitch-hold</value>
+        </equals>
+        <equals>
+          <property>/autopilot/locks/altitude</property>
+          <value>vertical-speed-hold</value>
+        </equals>
+        <equals>
+          <property>/autopilot/locks/altitude</property>
+          <value>altitude-hold</value>
+        </equals>
+      </or>
+    </condition>
+    <set>
+      <prop>/controls/flight/elevator-trim</prop>
+      <value>0.0</value>
+    </set>
+  </property-rule>
+
+  <!-- ====================================================== -->
+  <!-- DEFAULTS                                              -->
+  <!-- ====================================================== -->
+
+  <property-rule>
+    <name>AP Default Init</name>
+    <debug>false</debug>
+    <condition>
+      <equals>
+        <property>/sim/signals/fdm-initialized</property>
+        <value>true</value>
+      </equals>
+    </condition>
+    <set>
+      <prop>/autopilot/internal/target-roll-deg</prop>
+      <value>0.0</value>
+    </set>
+    <set>
+      <prop>/autopilot/internal/target-pitch-deg</prop>
+      <value>0.0</value>
+    </set>
+    <set>
+      <prop>/autopilot/internal/target-fpm-vs</prop>
+      <value>0.0</value>
+    </set>
+  </property-rule>
+
+</PropertyList>

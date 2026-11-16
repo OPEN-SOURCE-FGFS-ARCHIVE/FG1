@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<PropertyList>
+  <name>radar-target</name>
+  <title>Radar target selector</title>
+  <layout>vbox</layout>
+  <default-padding>8</default-padding>
+
+  <text>
+    <label>Selected target</label>
+  </text>
+
+  <text>
+    <property>/instrumentation/FGUKRadar/highlight-callsign</property>
+  </text>
+
+  <hrule/>
+
+  <group>
+    <layout>hbox</layout>
+    <default-padding>8</default-padding>
+
+    <group>
+      <layout>vbox</layout>
+      <default-padding>4</default-padding>
+
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[0]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[1]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[2]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[3]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[4]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[5]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[6]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[7]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[8]</property></text>
+      <text><property>/instrumentation/FGUKRadar/dialog/labels/label[9]</property></text>
+    </group>
+
+    <group>
+      <layout>vbox</layout>
+      <default-padding>3</default-padding>
+
+      <button>
+        <legend>Select 1</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">0</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 2</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">1</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 3</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">2</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 4</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">3</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 5</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">4</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 6</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">5</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 7</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">6</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 8</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">7</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 9</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">8</value>
+        </binding>
+      </button>
+
+      <button>
+        <legend>Select 10</legend>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/FGUKRadar/dialog/selected-index</property>
+          <value type="int">9</value>
+        </binding>
+      </button>
+    </group>
+  </group>
+
+  <hrule/>
+
+  <group>
+    <layout>hbox</layout>
+    <default-padding>6</default-padding>
+
+    <button>
+      <legend>Clear target</legend>
+      <binding>
+        <command>property-assign</command>
+        <property>/instrumentation/FGUKRadar/highlight-callsign</property>
+        <value type="string"></value>
+      </binding>
+    </button>
+
+    <button>
+      <legend>Close</legend>
+      <binding>
+        <command>dialog-close</command>
+        <dialog-name>radar-target</dialog-name>
+      </binding>
+    </button>
+  </group>
+</PropertyList>

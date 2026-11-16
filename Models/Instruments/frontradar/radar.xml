@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+
+  <path>radar.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>fond</object-name>
+
+
+    <object-name>texte</object-name>
+    <object-name>knob</object-name>
+    <object-name>knob2</object-name>
+    <object-name>knob3</object-name>
+    <object-name>knob4</object-name>
+    <object-name>knob5</object-name>
+    <object-name>knob6</object-name>
+    <object-name>needle</object-name>
+    <object-name>number1</object-name>
+    <object-name>number10</object-name>
+    <object-name>number100</object-name>
+
+    <!-- Objets transparents -->
+    <object-name>vitre</object-name>
+  </animation>
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>fond</object-name>
+
+    <object-name>needle</object-name>
+    <object-name>number1</object-name>
+    <object-name>number10</object-name>
+    <object-name>number100</object-name>
+    <object-name>vitre</object-name>
+  </animation>
+
+  <!-- working for Compositor -->
+  <effect>
+  <inherits-from>Effects/model-transparent</inherits-from>
+<object-name>vitre</object-name>
+<object-name>RDRScreen</object-name>
+<object-name>needle</object-name>
+
+</effect>
+
+  <animation>
+    <type>material</type>
+
+    <object-name>texte</object-name>
+    <object-name>knob</object-name>
+    <object-name>knob2</object-name>
+    <object-name>knob3</object-name>
+    <object-name>knob4</object-name>
+    <object-name>knob5</object-name>
+    <object-name>knob6</object-name>
+    <object-name>needle</object-name>
+    <object-name>number1</object-name>
+    <object-name>number10</object-name>
+    <object-name>number100</object-name>
+    <condition>
+	<equals>
+      <property>engines/engine/running</property>
+	  <value>true</value>
+	  </equals>
+    </condition>
+    <emission>
+
+      <red>   0.70 </red>
+      <green> 0.40 </green>
+      <blue>  0.30 </blue>
+    </emission>
+  </animation>
+
+ <animation>
+    <type>select</type>
+    <object-name>needle</object-name>
+    <condition>
+	<equals>
+      <property>engines/engine/running</property>
+	  <value>true</value>
+	  </equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>needle</object-name>
+    <property>engines/engine/running</property>
+    <factor>12.5</factor>
+    <axis>
+      <x> -1 </x>
+      <y>  0 </y>
+      <z>  0 </z>
+    </axis>
+  </animation>
+
+  <animation>
+      <type>pick</type>
+      <object-name>knob4</object-name>
+      <action>
+          <button>3</button>
+          <repeatable>true</repeatable>
+          <binding>
+              <command>property-adjust</command>
+      <property>instrumentation/FGUKRadar/range-nm</property>
+              <step>-10</step>
+              <min>0</min>
+              <max>1000</max>
+              <wrap>false</wrap>
+          </binding>
+      </action>
+  </animation>
+
+<!--  <animation>
+      <type>pick</type>
+      <object-name>knob4</object-name>
+      <action>
+          <button>4</button>
+          <repeatable>true</repeatable>
+          <binding>
+              <command>property-adjust</command>
+      <property>instrumentation/FGUKRadar/range-nm</property>
+              <step>10</step>
+              <min>0</min>
+              <max>1000</max>
+              <wrap>false</wrap>
+          </binding>
+      </action>
+  </animation> -->
+
+  <animation>
+      <type>rotate</type>
+      <object-name>knob4</object-name>
+      <property>instrumentation/FGUKRadar/range-nm</property>
+      <interpolation>
+          <entry><ind>0</ind><dep>360</dep></entry>
+          <entry><ind>0</ind><dep>360</dep></entry>
+      </interpolation>
+      <axis>
+          <x>0</x>
+          <y>1</y>
+          <z>0</z>
+      </axis>
+  </animation>
+
+  <!--<animation>
+    <type>rotate</type>
+    <object-name>knob4</object-name>
+    <property>instrumentation/FGUKRadar/range-nm</property>
+    <factor>200</factor>
+    <center>
+     <x-m>0.025</x-m>
+     <y-m>-0.037</y-m>
+     <z-m>-0.035</z-m>
+    </center>
+    <axis>
+     <x>-1</x>
+     <y>0</y>
+     <z>0</z>
+    </axis>
+  </animation> -->
+
+</PropertyList>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+
+  <path>FGUKRadar.ac</path>
+
+  <name>RDRScreen</name>
+  <type>screen</type>
+  <width>512</width> <!-- Match canvas size -->
+  <height>512</height> <!-- Match canvas size -->
+
+  <animation>
+    <object-name>RDRScreen</object-name>
+  </animation>
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>RDRScreen</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>RDRScreen</object-name>
+    <condition>
+      <property>/controls/lighting/instrument-lights</property>
+    </condition>
+    <emission>
+      <red>   0.80 </red>
+      <green> 0.50 </green>
+      <blue>  0.50 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <object-name>Knob</object-name>
+  </animation>
+
+<animation>
+    <type>knob</type>
+    <object-name>G5.knob</object-name>
+    <property>instrumentation/FGUKRadar/range-nm</property>
+<factor>20</factor>
+    <axis>
+        <x>1</x>
+        <y>0</y>
+        <z>0</z>
+    </axis>
+
+    <action>
+  <binding>
+      <command>property-adjust</command>
+      <property>instrumentation/FGUKRadar/range-nm</property>
+      <wrap>true</wrap>
+      <min>5</min>
+      <max>150</max> <!-- 0=off, 1=right, 2=both, 3=left -->
+  </binding>
+</action>
+</animation>
+
+  <!-- New animation for cycling up-north property -->
+  <animation>
+    <type>pick</type>
+    <object-name>Radar.PWR</object-name>
+    <action>
+      <button>0</button> <!-- Left mouse button -->
+      <repeatable>true</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>instrumentation/FGUKRadar/up-north</property>
+      </binding>
+    </action>
+  </animation>
+
+</PropertyList>
